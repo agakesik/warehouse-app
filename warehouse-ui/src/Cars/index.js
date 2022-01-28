@@ -1,31 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Car from "./Car";
 
 function Cars() {
-  const cars = [
-    {
-      id: 1,
-      make: "Maserati",
-      model: "Coupe",
-      yearModel: 2005,
-      price: 199572.71,
-      licensed: false,
-    },
-    {
-      id: 2,
-      make: "Isuzu",
-      model: "Rodeo",
-      yearModel: 1998,
-      price: 6303.99,
-      licensed: false,
-    },
-  ];
+  const [cars, setCars] = useState([]);
+  const [messageForUser, setMessageForUser] = useState("Loading information");
+
+  useEffect(() => getCars(), []);
+
+  const apiUrl = "https://localhost:7124/api/Cars";
+  const getCars = () => {
+    fetch(apiUrl, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((json) => {
+            setCars(json);
+          });
+        } else {
+          setMessageForUser(
+            "There was problem with getting information. Please try again later."
+          );
+        }
+      })
+      .catch((error) => console.log(error));
+  };
 
   const carsComponents = cars.map((car) => (
-    <Car make={car.make} model={car.model} price={car.price} />
+    <Car make={car.make} model={car.model} price={car.price} key={car.id} />
   ));
 
-  return <div className="cars">{carsComponents}</div>;
+  return (
+    <div className="cars">{cars.length ? carsComponents : messageForUser}</div>
+  );
 }
 
 export default Cars;
