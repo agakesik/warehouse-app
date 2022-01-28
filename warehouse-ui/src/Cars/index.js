@@ -5,9 +5,9 @@ function Cars() {
   const [cars, setCars] = useState([]);
   const [messageForUser, setMessageForUser] = useState("Loading information");
 
-  useEffect(() => getCars(), []);
+  useEffect(() => getCars());
 
-  const apiUrl = "https://localhost:7124/api/Cars";
+  const apiUrl = process.env.REACT_APP_API_URL + "/api/Cars";
   const getCars = () => {
     fetch(apiUrl, {
       method: "GET",

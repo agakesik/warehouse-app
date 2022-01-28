@@ -1,3 +1,4 @@
+//using System.Configuration;
 using WarehouseApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,13 +11,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICarService,CarService>();
 
+IConfiguration configuration = new ConfigurationBuilder()
+                            .AddJsonFile("appsettings.json")
+                            .Build();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
                       builder =>
                       {
                           builder
-                                 .WithOrigins("http://localhost:3000")
+                                 .WithOrigins(configuration["UIBaseUrl"])
                                  .AllowAnyMethod()
                                  .AllowAnyHeader()
                                  .AllowCredentials();
