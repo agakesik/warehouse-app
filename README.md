@@ -13,7 +13,12 @@ Make sure to have Node.js installed
 \*Make sure backend project in running on port :7124
 Otherwise please change REACT_APP_API_URL in .env file accordingly
 
-## To run backend project
+## To run backend
+
+- Create database using Entity Framework
+
+* run `dotnet ef database update`
+  it will create database locally using SQL Server LocalDB
 
 Using dotnet CLI
 
