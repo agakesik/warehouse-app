@@ -1,22 +1,20 @@
-﻿using WarehouseApi.Models;
+﻿using WarehouseApi.Data;
+using WarehouseApi.Models;
 
 namespace WarehouseApi.Services
 {
     public class CarService : ICarService
     {
+        private readonly DataContext _dataContext;
 
-        private List<Car> _cars = new List<Car>
+        public CarService(DataContext dataContext)
         {
-            new Car { Id = 1, Make = "Maserati", Model = "Coupe", YearModel = 2005, Price = 199572.71M, Licensed = false },
-            new Car { Id = 2, Make = "Isuzu", Model = "Rodeo", YearModel = 1998, Price = 6303.99M, Licensed = false }
-        };
-
+            _dataContext = dataContext;
+        }
 
         public async Task<IEnumerable<Car>> GetAll()
         {
-
-            // wrapped in "await Task.Run" to mimic fetching users from a db
-            return await Task.Run(() => _cars);
+            return await _dataContext.Cars.OrderBy(x => x.DateAdded).ToListAsync();
         }
     }
 }
