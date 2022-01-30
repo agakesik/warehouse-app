@@ -20,9 +20,6 @@ p {
   border-radius: 10px;
   display: grid;
   align-items: center;
-
-  font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.7);
 }
 
 .car__active {
@@ -35,11 +32,6 @@ p {
 .car__active:hover {
   margin: 0;
   cursor: pointer;
-}
-
-.car__information {
-  font-size: 2em;
-  color: black;
 }
 
 .cars__modal {
@@ -68,6 +60,11 @@ p {
   border-radius: 20px;
   padding: 2rem;
   z-index: 100;
+  font-size: 1.5rem;
+}
+
+.cars__modal__content__information {
+  color: black;
 }
 
 .cars__modal__close-button {
@@ -76,4 +73,14 @@ p {
   border: 3px solid rgba(150, 0, 0, 0.6);
   padding: 0.5em;
   width: fit-content;
+}
+
+.text__description {
+  font-size: 0.75em;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.text__information {
+  font-size: 2em;
+  color: black;
 }

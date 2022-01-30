@@ -22,7 +22,7 @@ describe("Test Car component", () => {
     expect(priceInformation).toBeInTheDocument();
   });
 
-  test("click on licensed car should open modal and change modal's content", () => {
+  test("click on licensed car should open modal", () => {
     const fakeCar = {
       id: 1,
       make: "testMake",
@@ -30,20 +30,12 @@ describe("Test Car component", () => {
       price: "5",
       licensed: true,
     };
-    const mockSetModalContent = jest.fn();
     const mockOpenModal = jest.fn();
 
-    const wrapper = shallow(
-      <Car
-        car={fakeCar}
-        setModalContent={mockSetModalContent}
-        openModal={mockOpenModal}
-      />
-    );
+    const wrapper = shallow(<Car car={fakeCar} openModal={mockOpenModal} />);
 
     wrapper.find(".car").simulate("click");
 
-    expect(mockSetModalContent).toHaveBeenCalled();
     expect(mockOpenModal).toHaveBeenCalled();
   });
 });

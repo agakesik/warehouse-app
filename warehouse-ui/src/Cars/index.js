@@ -8,10 +8,7 @@ function Cars() {
     "Loading information"
   );
   const [modalVisible, toggleModalVisible] = React.useState(false);
-  const [modalContent, setModalContent] = React.useState({
-    make: "test",
-    model: "test2",
-  });
+  const [modalContent, setModalContent] = React.useState({});
 
   useEffect(() => getCars(), []);
 
@@ -40,7 +37,7 @@ function Cars() {
       car={car}
       key={car.id}
       openModal={() => toggleModalVisible(true)}
-      setModalContent={() => setModalContent(car)}
+      setModalContent={(carDetails) => setModalContent(carDetails)}
     />
   ));
 
