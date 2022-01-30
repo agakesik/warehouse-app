@@ -22,5 +22,12 @@ namespace WarehouseApi.Controllers
             var cars = await _carService.GetAllBasic();
             return Ok(cars);
         }
+
+        [HttpGet("getDetails")]
+        public async Task <ActionResult<CarDetailedModel>> GetDetails(int id)
+        {
+            var car = await _carService.GetDetails(id);
+            return Ok(car);
+        }
     }
 }

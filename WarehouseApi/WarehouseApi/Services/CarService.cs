@@ -20,5 +20,15 @@ namespace WarehouseApi.Services
             var cars = await _dataContext.Cars.OrderBy(x => x.DateAdded).ToListAsync();
             return _mapper.Map<IEnumerable<CarBasicModel>>(cars);
         }
+
+        public async Task<CarDetailedModel> GetDetails(int id)
+        {
+            var lookedUpCar = await _dataContext.Cars.FindAsync(id);
+            var detailedCar = _mapper.Map<CarDetailedModel>(lookedUpCar);
+            detailedCar.WarehouseName = "test warehouse";
+            detailedCar.WarehouseLatitude = 0;
+            detailedCar.WarehouseLongitude = 0;
+            return detailedCar;
+        }
     }
 }

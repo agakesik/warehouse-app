@@ -15,10 +15,11 @@ namespace WarehouseApi.Tests.ServicesTests
 
         private List<Car> _cars = new List<Car>
                 {
-                    new Car { Id = 1, Make = "Make1", Model = "Model1", YearModel = 2005, Price = 10000M, Licensed = false, DateAdded = new DateTime(2022, 01, 01) },
-                    new Car { Id = 2, Make = "Make2", Model = "Model2", YearModel = 1998, Price = 500M, Licensed = false, DateAdded = new DateTime(2020, 01, 01) },
-                    new Car { Id = 3, Make = "Make3", Model = "Model3", YearModel = 2010, Price = 300000M, Licensed = false, DateAdded = new DateTime(2021, 01, 01) },
+                    new Car { Id = 1, Make = "Make1", Model = "Model1", YearModel = 2005, Price = 10000M, Licensed = false, DateAdded = new DateTime(2022, 01, 01), WarehouseId = 1 },
+                    new Car { Id = 2, Make = "Make2", Model = "Model2", YearModel = 1998, Price = 500M, Licensed = false, DateAdded = new DateTime(2020, 01, 01), WarehouseId = 1 },
+                    new Car { Id = 3, Make = "Make3", Model = "Model3", YearModel = 2010, Price = 300000M, Licensed = false, DateAdded = new DateTime(2021, 01, 01), WarehouseId = 2 },
                 };
+
 
         [Fact]
         public async void GetAll_ShouldGetAllCars()
@@ -99,6 +100,45 @@ namespace WarehouseApi.Tests.ServicesTests
             Assert.Equal(expectedList[2].Id, actualList[2].Id);
 
 
+        }
+
+        [Fact]
+        public async void GetDetails_ShouldReturnCorrectCar()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<DataContext>()
+                .UseInMemoryDatabase(databaseName: "ShouldHaveSortedCars")
+                .Options;
+            var myProfile = new AutoMapperProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            var mapper = new Mapper(configuration);
+
+            using (var context = new DataContext(options))
+            {
+                foreach (var car in _cars)
+                {
+                    context.Add(car);
+                    context.SaveChanges();
+                }
+            }
+
+            var expectedCar = new CarDetailedModel { Id = 1, Make = "Make1", Model = "Model1", YearModel = 2005, Price = 10000M, Licensed = false, WarehouseName = "test warehouse", WarehouseLatitude = 0, WarehouseLongitude = 0 };
+
+            // Act
+            CarDetailedModel actualCar;
+            using (var context = new DataContext(options))
+            {
+                var carService = new CarService(context, mapper);
+                var getDetails = await carService.GetDetails(expectedCar.Id);
+                actualCar = getDetails;
+            }
+            Assert.Equal(expectedCar.Id, actualCar.Id);
+            Assert.Equal(expectedCar.WarehouseName, actualCar.WarehouseName);
+            Assert.Equal(expectedCar.WarehouseLongitude, actualCar.WarehouseLongitude);
+            Assert.Equal(expectedCar.WarehouseLatitude, actualCar.WarehouseLatitude);
+
+
+            // Assert
         }
     }
 }

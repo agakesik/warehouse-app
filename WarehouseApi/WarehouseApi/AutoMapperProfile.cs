@@ -8,6 +8,8 @@ namespace WarehouseApi
         public AutoMapperProfile()
         {
             CreateMap<Car, CarBasicModel>();
+            CreateMap<Car, CarDetailedModel>();
+
         }
     }
 }
