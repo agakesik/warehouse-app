@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import Car from "./Car";
 
 function Cars() {
-  const [cars, setCars] = useState([]);
-  const [messageForUser, setMessageForUser] = useState("Loading information");
+  const [cars, setCars] = React.useState([]);
+  const [messageForUser, setMessageForUser] = React.useState(
+    "Loading information"
+  );
+  console.log("test");
 
-  useEffect(() => getCars());
+  useEffect(() => getCars(), []);
 
   const apiUrl = process.env.REACT_APP_API_URL + "/api/Cars";
   const getCars = () => {
+    console.log("go to fecth");
     fetch(apiUrl, {
       method: "GET",
     })
@@ -16,6 +20,7 @@ function Cars() {
         if (response.ok) {
           response.json().then((json) => {
             setCars(json);
+            console.log("fetched data");
           });
         } else {
           setMessageForUser(
@@ -32,6 +37,7 @@ function Cars() {
 
   return (
     <div className="cars">{cars.length ? carsComponents : messageForUser}</div>
+    // <div></div>
   );
 }
 
