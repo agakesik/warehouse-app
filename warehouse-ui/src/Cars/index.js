@@ -5,7 +5,7 @@ function Cars() {
   const [cars, setCars] = useState([]);
   const [messageForUser, setMessageForUser] = useState("Loading information");
 
-  useEffect(() => getCars());
+  useEffect(() => getCars(), []);
 
   const apiUrl = process.env.REACT_APP_API_URL + "/api/Cars";
   const getCars = () => {
@@ -16,6 +16,7 @@ function Cars() {
         if (response.ok) {
           response.json().then((json) => {
             setCars(json);
+            console.log("fetched data");
           });
         } else {
           setMessageForUser(

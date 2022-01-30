@@ -3,9 +3,19 @@ import "./style.css";
 function Car(props) {
   return (
     <div className="car">
-      <p>Make: {props.make}</p>
-      <p>Model: {props.model}</p>
-      <p>Price: {props.price}</p>
+      <span>
+        <p>Make: </p>
+        <p className="car__information">{props.make}</p>
+      </span>
+      <span>
+        <p>Model:</p>
+        <p className="car__information">{props.model}</p>
+      </span>
+      <span>
+        <p>Price: </p>
+
+        <p className="car__information">{props.price}</p>
+      </span>
     </div>
   );
 }
