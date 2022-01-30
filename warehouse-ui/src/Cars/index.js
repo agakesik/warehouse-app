@@ -17,7 +17,6 @@ function Cars() {
 
   const apiUrl = process.env.REACT_APP_API_URL + "/api/Cars";
   const getCars = () => {
-    console.log("go to fecth");
     fetch(apiUrl, {
       method: "GET",
     })

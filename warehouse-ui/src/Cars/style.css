@@ -8,7 +8,7 @@ p {
   gap: 1rem;
   align-items: center;
   justify-content: center;
-  margin: 10vw;
+  margin: 0 10vw;
 }
 
 .car {
@@ -34,6 +34,7 @@ p {
 
 .car__active:hover {
   margin: 0;
+  cursor: pointer;
 }
 
 .car__information {
@@ -64,14 +65,15 @@ p {
   left: 10vw;
   right: 10vw;
   background-color: white;
+  border-radius: 20px;
   padding: 2rem;
   z-index: 100;
 }
 
 .cars__modal__close-button {
   cursor: pointer;
-  border-radius: 5px;
-  border: 2px solid gray;
+  border-radius: 10px;
+  border: 3px solid rgba(150, 0, 0, 0.6);
   padding: 0.5em;
   width: fit-content;
 }
