@@ -4,6 +4,7 @@ namespace WarehouseApi.Services
 {
     public interface ICarService
     {
-        Task<IEnumerable<Car>> GetAll();
+        Task<IEnumerable<CarBasicModel>> GetAllBasic();
+        Task<CarDetailedModel> GetDetails(int id);
     }
 }
