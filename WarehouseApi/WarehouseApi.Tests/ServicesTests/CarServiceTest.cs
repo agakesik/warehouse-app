@@ -49,7 +49,8 @@ namespace WarehouseApi.Tests.ServicesTests
             List<CarBasicModel> actualList;
             using (var context = new DataContext(options))
             {
-                var carService = new CarService(context, mapper);
+                var warehouseService = new WarehouseService(context);
+                var carService = new CarService(context, mapper, warehouseService);
                 var getAll = await carService.GetAllBasic();
                 actualList = getAll.ToList();
             }
@@ -71,9 +72,9 @@ namespace WarehouseApi.Tests.ServicesTests
 
             List<Car> expectedList = new List<Car>
                 {
-                    new Car { Id = 2, Make = "Make2", Model = "Model2", YearModel = 1998, Price = 500M, Licensed = false, DateAdded = new DateTime(2020, 01, 01) },
-                    new Car { Id = 3, Make = "Make3", Model = "Model3", YearModel = 2010, Price = 300000M, Licensed = false, DateAdded = new DateTime(2021, 01, 01) },
-                    new Car { Id = 1, Make = "Make1", Model = "Model1", YearModel = 2005, Price = 10000M, Licensed = false, DateAdded = new DateTime(2022, 01, 01) },
+                    new Car { Id = 2, Make = "Make2", Model = "Model2", YearModel = 1998, Price = 500M, Licensed = false, DateAdded = new DateTime(2020, 01, 01), WarehouseId = 1 },
+                    new Car { Id = 3, Make = "Make3", Model = "Model3", YearModel = 2010, Price = 300000M, Licensed = false, DateAdded = new DateTime(2021, 01, 01), WarehouseId = 1 },
+                    new Car { Id = 1, Make = "Make1", Model = "Model1", YearModel = 2005, Price = 10000M, Licensed = false, DateAdded = new DateTime(2022, 01, 01), WarehouseId = 1 },
                 };
 
             using (var context = new DataContext(options))
@@ -89,7 +90,8 @@ namespace WarehouseApi.Tests.ServicesTests
             List<CarBasicModel> actualList;
             using (var context = new DataContext(options))
             {
-                var carService = new CarService(context, mapper);
+                var warehouseService = new WarehouseService(context);
+                var carService = new CarService(context, mapper, warehouseService);
                 var getAll = await carService.GetAllBasic();
                 actualList = getAll.ToList();
             }
@@ -113,32 +115,39 @@ namespace WarehouseApi.Tests.ServicesTests
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
             var mapper = new Mapper(configuration);
 
+            var falseWarehouse = new Warehouse { Id = 1, Name = "Warehouse", Longitude = 11, Latitude = 222 };
             using (var context = new DataContext(options))
             {
+                context.Add(falseWarehouse);
+                context.SaveChanges();
+
                 foreach (var car in _cars)
                 {
                     context.Add(car);
                     context.SaveChanges();
                 }
             }
+            
+            var expectedCar = new CarDetailedModel { Id = 1, Make = "Make1", Model = "Model1", YearModel = 2005, Price = 10000M, Licensed = false, WarehouseName = falseWarehouse.Name, WarehouseLatitude = falseWarehouse.Latitude, WarehouseLongitude = falseWarehouse.Longitude };
 
-            var expectedCar = new CarDetailedModel { Id = 1, Make = "Make1", Model = "Model1", YearModel = 2005, Price = 10000M, Licensed = false, WarehouseName = "test warehouse", WarehouseLatitude = 0, WarehouseLongitude = 0 };
-
-            // Act
-            CarDetailedModel actualCar;
+           // Act
+           CarDetailedModel actualCar;
             using (var context = new DataContext(options))
             {
-                var carService = new CarService(context, mapper);
-                var getDetails = await carService.GetDetails(expectedCar.Id);
-                actualCar = getDetails;
+                    var warehouseService = new WarehouseService(context);
+                    var carService = new CarService(context, mapper, warehouseService);
+                    var getDetails = await carService.GetDetails(expectedCar.Id);
+                    actualCar = getDetails;
             }
-            Assert.Equal(expectedCar.Id, actualCar.Id);
-            Assert.Equal(expectedCar.WarehouseName, actualCar.WarehouseName);
-            Assert.Equal(expectedCar.WarehouseLongitude, actualCar.WarehouseLongitude);
-            Assert.Equal(expectedCar.WarehouseLatitude, actualCar.WarehouseLatitude);
 
 
             // Assert
+            Assert.Equal(expectedCar.Id, actualCar.Id);
+            Assert.Equal(expectedCar.Make, actualCar.Make);
+            Assert.Equal(expectedCar.Price, actualCar.Price);
+            Assert.Equal(expectedCar.WarehouseName, actualCar.WarehouseName);
+            Assert.Equal(expectedCar.WarehouseLongitude, actualCar.WarehouseLongitude);
+            Assert.Equal(expectedCar.WarehouseLatitude, actualCar.WarehouseLatitude);
         }
     }
 }

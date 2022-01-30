@@ -8,11 +8,13 @@ namespace WarehouseApi.Services
     {
         private readonly DataContext _dataContext;
         private readonly IMapper _mapper;
+        private readonly IWarehouseService _warehouseService;
 
-        public CarService(DataContext dataContext, IMapper mapper)
+        public CarService(DataContext dataContext, IMapper mapper, IWarehouseService warehouseService)
         {
             _dataContext = dataContext;
             _mapper = mapper;
+            _warehouseService = warehouseService;
         }
 
         public async Task<IEnumerable<CarBasicModel>> GetAllBasic()
@@ -25,9 +27,10 @@ namespace WarehouseApi.Services
         {
             var lookedUpCar = await _dataContext.Cars.FindAsync(id);
             var detailedCar = _mapper.Map<CarDetailedModel>(lookedUpCar);
-            detailedCar.WarehouseName = "test warehouse";
-            detailedCar.WarehouseLatitude = 0;
-            detailedCar.WarehouseLongitude = 0;
+            var warehouse = await _warehouseService.GetById(lookedUpCar.WarehouseId);
+            detailedCar.WarehouseName = warehouse.Name;
+            detailedCar.WarehouseLatitude = warehouse.Latitude;
+            detailedCar.WarehouseLongitude = warehouse.Longitude;
             return detailedCar;
         }
     }
