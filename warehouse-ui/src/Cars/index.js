@@ -39,7 +39,7 @@ function Cars() {
     <Car
       car={car}
       key={car.id}
-      onClick={() => toggleModalVisible(true)}
+      openModal={() => toggleModalVisible(true)}
       setModalContent={() => setModalContent(car)}
     />
   ));

@@ -5,7 +5,7 @@ function Car(props) {
   const onClick = () => {
     if (props.car.licensed) {
       props.setModalContent(props.car);
-      props.onClick();
+      props.openModal();
     }
   };
   return (

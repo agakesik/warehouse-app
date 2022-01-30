@@ -31,19 +31,19 @@ describe("Test Car component", () => {
       licensed: true,
     };
     const mockSetModalContent = jest.fn();
-    const mockOnClick = jest.fn();
+    const mockOpenModal = jest.fn();
 
     const wrapper = shallow(
       <Car
         car={fakeCar}
         setModalContent={mockSetModalContent}
-        onClick={mockOnClick}
+        openModal={mockOpenModal}
       />
     );
 
     wrapper.find(".car").simulate("click");
 
     expect(mockSetModalContent).toHaveBeenCalled();
-    expect(mockOnClick).toHaveBeenCalled();
+    expect(mockOpenModal).toHaveBeenCalled();
   });
 });
