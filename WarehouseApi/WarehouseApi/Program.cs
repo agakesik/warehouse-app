@@ -17,6 +17,7 @@ builder.Services.AddDbContext<DataContext>( options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICarService,CarService>();
+builder.Services.AddScoped<IWarehouseService,WarehouseService>();
 
 IConfiguration configuration = new ConfigurationBuilder()
                             .AddJsonFile("appsettings.json")
