@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Car from "./Car";
+import Modal from "./Modal";
 
 function Cars() {
   const [cars, setCars] = React.useState([]);
   const [messageForUser, setMessageForUser] = React.useState(
     "Loading information"
   );
-  console.log("test");
+  const [modalVisible, toggleModalVisible] = React.useState(false);
+  const [modalContent, setModalContent] = React.useState({
+    make: "test",
+    model: "test2",
+  });
 
   useEffect(() => getCars(), []);
 
   const apiUrl = process.env.REACT_APP_API_URL + "/api/Cars";
   const getCars = () => {
-    console.log("go to fecth");
     fetch(apiUrl, {
       method: "GET",
     })
@@ -32,12 +36,25 @@ function Cars() {
   };
 
   const carsComponents = cars.map((car) => (
-    <Car make={car.make} model={car.model} price={car.price} key={car.id} />
+    <Car
+      car={car}
+      key={car.id}
+      openModal={() => toggleModalVisible(true)}
+      setModalContent={() => setModalContent(car)}
+    />
   ));
 
   return (
-    <div className="cars">{cars.length ? carsComponents : messageForUser}</div>
-    // <div></div>
+    <div>
+      <div className="cars">
+        {cars.length ? carsComponents : messageForUser}
+      </div>
+      <Modal
+        modalVisible={modalVisible}
+        modalContent={modalContent}
+        closeModal={() => toggleModalVisible(false)}
+      />
+    </div>
   );
 }
 
