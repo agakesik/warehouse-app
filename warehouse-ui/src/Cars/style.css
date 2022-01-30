@@ -35,3 +35,38 @@ p {
   font-size: 2em;
   color: black;
 }
+
+.cars__modal {
+  display: none;
+}
+
+.cars__modal__visible {
+  display: block;
+}
+.cars__modal__background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+.cars__modal__content {
+  position: absolute;
+  top: 10vw;
+  bottom: 10vw;
+  left: 10vw;
+  right: 10vw;
+  background-color: white;
+  padding: 2rem;
+  z-index: 100;
+}
+
+.cars__modal__close-button {
+  cursor: pointer;
+  border-radius: 5px;
+  border: 2px solid gray;
+  padding: 0.5em;
+  width: fit-content;
+}

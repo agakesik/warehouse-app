@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Car from "./Car";
+import Modal from "./Modal";
 
 function Cars() {
   const [cars, setCars] = React.useState([]);
   const [messageForUser, setMessageForUser] = React.useState(
     "Loading information"
   );
-  console.log("test");
+  const [modalVisible, toggleModalVisible] = React.useState(false);
 
   useEffect(() => getCars(), []);
 
@@ -32,12 +33,25 @@ function Cars() {
   };
 
   const carsComponents = cars.map((car) => (
-    <Car make={car.make} model={car.model} price={car.price} key={car.id} />
+    <Car
+      make={car.make}
+      model={car.model}
+      price={car.price}
+      key={car.id}
+      onClick={() => toggleModalVisible(true)}
+    />
   ));
 
   return (
-    <div className="cars">{cars.length ? carsComponents : messageForUser}</div>
-    // <div></div>
+    <div>
+      <div className="cars">
+        {cars.length ? carsComponents : messageForUser}
+      </div>
+      <Modal
+        modalVisible={modalVisible}
+        closeModal={() => toggleModalVisible(false)}
+      />
+    </div>
   );
 }
 
