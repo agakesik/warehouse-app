@@ -1,7 +1,10 @@
 import React from "react";
+import Car from "./Car";
 
 function Modal(props) {
   const isVisible = props.modalVisible ? "cars__modal__visible" : "";
+  const car = props.modalContent;
+
   return (
     <div className={"cars__modal " + isVisible}>
       <div
@@ -16,6 +19,7 @@ function Modal(props) {
           close X
         </div>
         <p>this is a test modal</p>
+        <p>make: {car ? car.make : ""} </p>
       </div>
     </div>
   );

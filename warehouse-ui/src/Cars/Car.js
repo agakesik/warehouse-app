@@ -2,7 +2,12 @@ import "./style.css";
 
 function Car(props) {
   const activeClass = props.car.licensed ? "car__active" : "";
-  const onClick = props.car.licensed ? () => props.onClick() : null;
+  const onClick = () => {
+    if (props.car.licensed) {
+      props.setModalContent(props.car);
+      props.onClick();
+    }
+  };
   return (
     <div className={"car " + activeClass} onClick={onClick}>
       <span>

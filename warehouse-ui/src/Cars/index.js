@@ -8,6 +8,10 @@ function Cars() {
     "Loading information"
   );
   const [modalVisible, toggleModalVisible] = React.useState(false);
+  const [modalContent, setModalContent] = React.useState({
+    make: "test",
+    model: "test2",
+  });
 
   useEffect(() => getCars(), []);
 
@@ -33,7 +37,12 @@ function Cars() {
   };
 
   const carsComponents = cars.map((car) => (
-    <Car car={car} key={car.id} onClick={() => toggleModalVisible(true)} />
+    <Car
+      car={car}
+      key={car.id}
+      onClick={() => toggleModalVisible(true)}
+      setModalContent={() => setModalContent(car)}
+    />
   ));
 
   return (
@@ -43,6 +52,7 @@ function Cars() {
       </div>
       <Modal
         modalVisible={modalVisible}
+        modalContent={modalContent}
         closeModal={() => toggleModalVisible(false)}
       />
     </div>
