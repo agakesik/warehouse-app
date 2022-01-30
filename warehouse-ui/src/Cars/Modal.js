@@ -1,9 +1,9 @@
 import React from "react";
-import Car from "./Car";
 
 function Modal(props) {
   const isVisible = props.modalVisible ? "cars__modal__visible" : "";
-  const car = props.modalContent;
+  const modalCar = props.modalContent;
+  console.log(props.modalContent);
 
   return (
     <div className={"cars__modal " + isVisible}>
@@ -18,8 +18,46 @@ function Modal(props) {
         >
           close X
         </div>
-        <p>this is a test modal</p>
-        <p>make: {car ? car.make : ""} </p>
+        <div className="text__description">
+          <p>
+            make:{" "}
+            <span className="text__information">
+              {modalCar ? modalCar.make : ""}
+            </span>
+          </p>
+          <p>
+            model:{" "}
+            <span className="text__information">
+              {modalCar ? modalCar.model : ""}
+            </span>
+          </p>
+          <p>
+            year:{" "}
+            <span className="text__information">
+              {modalCar ? modalCar.yearModel : ""}
+            </span>
+          </p>
+          <p>
+            price:{" "}
+            <span className="text__information">
+              {modalCar ? modalCar.price : ""}
+            </span>{" "}
+          </p>
+          <p>
+            warehouse:{" "}
+            <span className="text__information">
+              {modalCar ? modalCar.warehouseName : ""}
+            </span>
+          </p>
+          <p>
+            warehouse location:{" "}
+            <span className="text__information">
+              {modalCar
+                ? `lon: ${modalCar.warehouseLongitude}, lat: ${modalCar.warehouseLatitude}`
+                : ""}
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   );
