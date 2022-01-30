@@ -18,10 +18,7 @@ function Car(props) {
       .then((response) => {
         if (response.ok) {
           response.json().then((json) => {
-            console.log(json);
             props.setModalContent(json);
-
-            console.log("fetched data");
           });
         } else {
           console.log(

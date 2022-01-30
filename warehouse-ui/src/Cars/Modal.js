@@ -3,7 +3,6 @@ import React from "react";
 function Modal(props) {
   const isVisible = props.modalVisible ? "cars__modal__visible" : "";
   const modalCar = props.modalContent;
-  console.log(props.modalContent);
 
   return (
     <div className={"cars__modal " + isVisible}>
