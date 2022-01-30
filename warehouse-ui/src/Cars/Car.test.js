@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { shallow } from "enzyme";
 
 import Car from "./Car";
 
@@ -19,5 +20,30 @@ describe("Test Car component", () => {
     expect(makeInformation).toBeInTheDocument();
     expect(modelInformation).toBeInTheDocument();
     expect(priceInformation).toBeInTheDocument();
+  });
+
+  test("click on licensed car should open modal and change modal's content", () => {
+    const fakeCar = {
+      id: 1,
+      make: "testMake",
+      model: "testModel",
+      price: "5",
+      licensed: true,
+    };
+    const mockSetModalContent = jest.fn();
+    const mockOnClick = jest.fn();
+
+    const wrapper = shallow(
+      <Car
+        car={fakeCar}
+        setModalContent={mockSetModalContent}
+        onClick={mockOnClick}
+      />
+    );
+
+    wrapper.find(".car").simulate("click");
+
+    expect(mockSetModalContent).toHaveBeenCalled();
+    expect(mockOnClick).toHaveBeenCalled();
   });
 });

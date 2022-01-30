@@ -20,11 +20,18 @@ const fakeCars = [
   },
 ];
 
-describe("Test Car component", () => {
+describe("Test Cars component", () => {
   test("render Car components based on state data", () => {
     React.useState = jest.fn().mockReturnValue([fakeCars, {}]);
 
     const wrapper = shallow(<Cars />);
     expect(wrapper.find("Car")).toHaveLength(2);
+  });
+
+  test("contains modal element", () => {
+    React.useState = jest.fn().mockReturnValue([fakeCars, {}]);
+
+    const wrapper = shallow(<Cars />);
+    expect(wrapper.find("Modal")).toHaveLength(1);
   });
 });
