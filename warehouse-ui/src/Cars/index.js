@@ -33,13 +33,7 @@ function Cars() {
   };
 
   const carsComponents = cars.map((car) => (
-    <Car
-      make={car.make}
-      model={car.model}
-      price={car.price}
-      key={car.id}
-      onClick={() => toggleModalVisible(true)}
-    />
+    <Car car={car} key={car.id} onClick={() => toggleModalVisible(true)} />
   ));
 
   return (
