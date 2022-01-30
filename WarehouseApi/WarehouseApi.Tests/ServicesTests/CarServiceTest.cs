@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,9 @@ namespace WarehouseApi.Tests.ServicesTests
             var options = new DbContextOptionsBuilder<DataContext>()
                 .UseInMemoryDatabase(databaseName: "ShouldGetAllGames")
                 .Options;
+            var myProfile = new AutoMapperProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            var mapper = new Mapper(configuration);
 
             List<Car> expectedList = _cars;
 
@@ -41,11 +45,11 @@ namespace WarehouseApi.Tests.ServicesTests
 
 
             // Act
-            List<Car> actualList;
+            List<CarBasicModel> actualList;
             using (var context = new DataContext(options))
             {
-                var carService = new CarService(context);
-                var getAll = await carService.GetAll();
+                var carService = new CarService(context, mapper);
+                var getAll = await carService.GetAllBasic();
                 actualList = getAll.ToList();
             }
 
@@ -60,6 +64,9 @@ namespace WarehouseApi.Tests.ServicesTests
             var options = new DbContextOptionsBuilder<DataContext>()
                 .UseInMemoryDatabase(databaseName: "ShouldHaveSortedCars")
                 .Options;
+            var myProfile = new AutoMapperProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            var mapper = new Mapper(configuration);
 
             List<Car> expectedList = new List<Car>
                 {
@@ -78,11 +85,11 @@ namespace WarehouseApi.Tests.ServicesTests
             }
 
             // Act
-            List<Car> actualList;
+            List<CarBasicModel> actualList;
             using (var context = new DataContext(options))
             {
-                var carService = new CarService(context);
-                var getAll = await carService.GetAll();
+                var carService = new CarService(context, mapper);
+                var getAll = await carService.GetAllBasic();
                 actualList = getAll.ToList();
             }
 
